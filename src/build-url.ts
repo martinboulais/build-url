@@ -92,11 +92,11 @@ export const buildUrl = (
      *
      * @param pathPart the path part that may contain a placeholder
      */
-    const replacePlaceholder = (pathPart: string): string => {
-        const match = pathPart.match(/^:(\w+)$/);
+    const replacePlaceholder = (pathPart: string): string|null => {
+        const match = pathPart.match(/^:(\w+)(\??)$/);
 
         if (match) {
-            const placeholderKey = match[1];
+            const [,placeholderKey,optional] = match;
             if (placeholderKey in parameters) {
                 const value = parameters[placeholderKey];
                 if (!Array.isArray(value)) {
@@ -104,6 +104,8 @@ export const buildUrl = (
                     return String(value);
                 }
             }
+            // Path part is optional and no value has been provided
+            if (optional) return null;
         }
 
         return pathPart;
@@ -116,6 +118,7 @@ export const buildUrl = (
                 .split(URL_PARTS_SEPARATOR)
                 .filter(subPathPart => !!subPathPart)
                 .map(subPathPart => replacePlaceholder(subPathPart))
+                .filter(pathPart => pathPart)
                 .join(URL_PARTS_SEPARATOR);
     }, "").substring(1);
 

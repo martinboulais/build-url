@@ -29,12 +29,18 @@ test("Build url with parameters", () => {
 });
 
 test("Build url with placeholders", () => {
-    expect(buildUrl([API_TEST_URL, "my/:id/test-path/:page"], {
+    expect(buildUrl([API_TEST_URL, "my/:id/test-path/:page?"], {
         parameters: {
             id: 12,
             page: 1,
         },
     })).toBe(API_TEST_URL+"my/12/test-path/1");
+
+    expect(buildUrl([API_TEST_URL, "my/:id/test-path/:page?"], {
+        parameters: {
+            id: 12,
+        },
+    })).toBe(API_TEST_URL+"my/12/test-path");
 });
 
 test("Build url with unsafe parameters", () => {
