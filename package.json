@@ -1,6 +1,6 @@
 {
   "name": "@mboulais/build-url",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple typescript utility to build URL",
   "main": "dist/build-url.js",
   "types": "dist/build-url.d.ts",
